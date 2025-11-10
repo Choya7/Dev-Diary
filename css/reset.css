@@ -1,0 +1,72 @@
+/* reset.css */
+
+/* 전체 요소의 margin, padding 제거 및 box-sizing 설정 */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* HTML5 요소를 block으로 인식하도록 설정 (구형 브라우저 호환용) */
+article, aside, footer, header, nav, section, main {
+  display: block;
+}
+
+/* 기본 글꼴 설정 */
+body {
+  line-height: 1.5;
+  font-family: sans-serif;
+  color: #000;
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 링크 초기화 */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 리스트 초기화 */
+ul,
+ol {
+  list-style: none;
+}
+
+/* 이미지와 미디어 요소 초기화 */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 버튼 초기화 */
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* 입력 요소 초기화 */
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+/* 테이블 초기화 */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}

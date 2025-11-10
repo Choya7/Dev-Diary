@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Dev-Diary</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+    <div data-include-path="../components/header.html"></div>
+
+    <main>
+        <section class="w20">
+            <div data-include-path="../components/sidebar.html"></div>
+        </section>
+        <section class="w80">
+            <div class="page active">
+                <div class="page-header">
+                    <h2>🔐 로그인</h2>
+                    <p>Dev-Diary에 로그인하세요</p>
+                </div>
+                <div class="page-content">
+                    <form id="login-form">
+                        <div class="setup-form">
+                            <input type="email" id="login-email" placeholder="이메일" required>
+                            <input type="password" id="login-password" placeholder="비밀번호" required>
+                            <button type="submit" class="save-btn">로그인</button>
+                            <a href="./signup.html" class="cancel-btn" style="text-align:center">회원가입</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div data-include-path="../components/footer.html"></div>
+
+    <script src="../js/includeHTML.js"></script>
+    <script src="../js/auth.js"></script>
+</body>
+</html>
+
+

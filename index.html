@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev-Diary</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/icon.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div data-include-path="./components/header.html"></div>
+
+    <main>
+        <section class="w20">
+            <div data-include-path="./components/sidebar.html"></div>
+        </section>
+        <section class="w80">
+            <div id="main-content">
+                <!-- Todo List 페이지 (기본) -->
+                <div id="todo-page" class="page active">
+            <div class="time">
+                <div id="date"><div id="year"></div><div id="month_day"></div></div>
+                <div id="time"></div>
+            </div>
+                    <div class="log" id="todo-list"></div>
+            <div class="enter">
+                        <input type="text" name="todo_text" id="todo_text" placeholder="할 일을 입력하세요...">
+                        <button id="add-todo-btn">+</button>
+                    </div>
+                </div>
+
+                <!-- Git 관리 페이지 -->
+                <div id="git-page" class="page">
+                    <div class="page-header">
+                        <h2>🔧 Git 관리</h2>
+                        <p>Git 저장소와 커밋을 관리하세요</p>
+                    </div>
+                    <div class="page-content">
+                        <div class="git-status">
+                            <h3>현재 상태</h3>
+                            <div class="status-item">
+                                <span class="status-label">브랜치:</span>
+                                <span class="status-value" id="current-branch">main</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">변경된 파일:</span>
+                                <span class="status-value" id="changed-files">0</span>
+                            </div>
+                        </div>
+                        <div class="git-commands">
+                            <h3>빠른 명령어</h3>
+                            <div class="command-buttons">
+                                <button class="git-btn" onclick="runGitCommand('status')">Status</button>
+                                <button class="git-btn" onclick="runGitCommand('add .')">Add All</button>
+                                <button class="git-btn" onclick="runGitCommand('commit -m')">Commit</button>
+                                <button class="git-btn" onclick="runGitCommand('push')">Push</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notion 페이지 -->
+                <div id="notion-page" class="page">
+                    <div class="page-header">
+                        <h2>📄 Notion 연동</h2>
+                        <p>Notion과 연동하여 노트를 관리하세요</p>
+                    </div>
+                    <div class="page-content">
+                        <div class="notion-setup">
+                            <h3>Notion 설정</h3>
+                            <div class="setup-form">
+                                <input type="text" placeholder="Notion API Key" id="notion-api-key">
+                                <input type="text" placeholder="Database ID" id="notion-db-id">
+                                <button class="save-btn">연결하기</button>
+                            </div>
+                        </div>
+                        <div class="notion-notes">
+                            <h3>최근 노트</h3>
+                            <div class="notes-list" id="notion-notes-list">
+                                <p class="empty-state">Notion이 연결되지 않았습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 일기장 페이지 -->
+                <div id="diary-page" class="page">
+                    <div class="page-header">
+                        <h2>📖 일기장</h2>
+                        <p>개발 일지를 작성하고 관리하세요</p>
+                    </div>
+                    <div class="page-content">
+                        <div class="diary-writer">
+                            <textarea id="diary-content" placeholder="오늘의 개발 일지를 작성해보세요..."></textarea>
+                            <div class="diary-actions">
+                                <button class="save-btn" id="save-diary">저장</button>
+                                <button class="cancel-btn" id="clear-diary">지우기</button>
+                            </div>
+                        </div>
+                        <div class="diary-list">
+                            <h3>최근 일기</h3>
+                            <div class="diary-entries" id="diary-entries">
+                                <p class="empty-state">아직 작성된 일기가 없습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 캘린더 페이지 -->
+                <div id="calendar-page" class="page">
+                    <div class="page-header">
+                        <h2>📅 캘린더</h2>
+                        <p>일정과 마일스톤을 관리하세요</p>
+                    </div>
+                    <div class="page-content">
+                        <div class="calendar-container">
+                            <div class="calendar-header">
+                                <button id="prev-month">‹</button>
+                                <h3 id="current-month-year"></h3>
+                                <button id="next-month">›</button>
+                            </div>
+                            <div class="calendar-grid" id="calendar-grid">
+                                <!-- 캘린더 그리드가 여기에 동적으로 생성됩니다 -->
+                            </div>
+                        </div>
+                        <div class="event-panel">
+                            <h3>날짜를 선택하면 일정이 여기에 표시됩니다.</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dev Log 페이지 -->
+                <div id="devlog-page" class="page">
+                    <div class="page-header">
+                        <h2>📊 Dev Log</h2>
+                        <p>개발 진행 상황과 이슈를 기록하세요</p>
+                    </div>
+                    <div class="page-content">
+                        <div class="log-writer">
+                            <input type="text" id="log-title" placeholder="로그 제목">
+                            <textarea id="log-content" placeholder="개발 로그를 작성하세요..."></textarea>
+                            <div class="log-actions">
+                                <select id="log-type">
+                                    <option value="feature">기능 개발</option>
+                                    <option value="bugfix">버그 수정</option>
+                                    <option value="refactor">리팩토링</option>
+                                    <option value="test">테스트</option>
+                                </select>
+                                <button class="save-btn" id="save-log">저장</button>
+                            </div>
+                        </div>
+                        <div class="log-list">
+                            <h3>개발 로그</h3>
+                            <div class="log-entries" id="log-entries">
+                                <p class="empty-state">아직 작성된 로그가 없습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 대시보드 페이지 -->
+                <div id="dashboard-page" class="page">
+                    <div class="page-header">
+                        <h2>📈 프로젝트 대시보드</h2>
+                        <p>프로젝트 현황을 한눈에 확인하세요</p>
+                    </div>
+                    <div class="page-content">
+                        <div class="dashboard-stats">
+                            <div class="stat-card">
+                                <h3>완료된 작업</h3>
+                                <div class="stat-number" id="completed-tasks">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>진행 중인 작업</h3>
+                                <div class="stat-number" id="in-progress-tasks">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>이번 주 커밋</h3>
+                                <div class="stat-number" id="weekly-commits">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>작성된 일기</h3>
+                                <div class="stat-number" id="diary-count">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 코드 스니펫 페이지 -->
+                <div id="snippets-page" class="page">
+                    <div class="page-header">
+                        <h2>💻 코드 스니펫</h2>
+                        <p>자주 사용하는 코드를 저장하고 관리하세요</p>
+                    </div>
+                    <div class="page-content">
+                        <div class="snippet-writer">
+                            <input type="text" id="snippet-title" placeholder="스니펫 제목">
+                            <select id="snippet-language">
+                                <option value="javascript">JavaScript</option>
+                                <option value="python">Python</option>
+                                <option value="html">HTML</option>
+                                <option value="css">CSS</option>
+                                <option value="java">Java</option>
+                                <option value="cpp">C++</option>
+                            </select>
+                            <textarea id="snippet-code" placeholder="코드를 입력하세요..."></textarea>
+                            <div class="snippet-actions">
+                                <button class="save-btn" id="save-snippet">저장</button>
+                                <button class="cancel-btn" id="clear-snippet">지우기</button>
+                            </div>
+                        </div>
+                        <div class="snippet-list">
+                            <h3>저장된 스니펫</h3>
+                            <div class="snippets" id="snippets-list">
+                                <p class="empty-state">아직 저장된 스니펫이 없습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 시간 추적 페이지 -->
+                <div id="timer-page" class="page">
+                    <div class="page-header">
+                        <h2>⏰ 시간 추적</h2>
+                        <p>포모도로 기법으로 집중력을 높이세요</p>
+                    </div>
+                    <div class="page-content">
+                        <div class="timer-container">
+                            <div class="timer-display">
+                                <div class="timer-circle">
+                                    <div class="timer-time" id="timer-display">25:00</div>
+                                </div>
+                            </div>
+                            <div class="timer-controls">
+                                <button class="timer-btn" id="start-timer">시작</button>
+                                <button class="timer-btn" id="pause-timer">일시정지</button>
+                                <button class="timer-btn" id="reset-timer">리셋</button>
+                            </div>
+                            <div class="timer-settings">
+                                <label>작업 시간 (분):</label>
+                                <input type="number" id="work-duration" value="25" min="1" max="60">
+                                <label>휴식 시간 (분):</label>
+                                <input type="number" id="break-duration" value="5" min="1" max="30">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 통계/리포트 페이지 -->
+                <div id="statistics-page" class="page">
+                    <div class="page-header">
+                        <h2>📊 통계 & 리포트</h2>
+                        <p>개발 활동을 분석하고 리포트를 확인하세요</p>
+                    </div>
+                    <div class="page-content">
+                        <div class="stats-charts">
+                            <div class="chart-container">
+                                <h3>일별 활동</h3>
+                                <canvas id="daily-activity-chart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <h3>기능별 사용률</h3>
+                                <canvas id="feature-usage-chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="stats-summary">
+                            <h3>주요 통계</h3>
+                            <div class="summary-grid">
+                                <div class="summary-item">
+                                    <span class="summary-label">총 작업 시간:</span>
+                                    <span class="summary-value" id="total-work-time">0시간</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">완료된 포모도로:</span>
+                                    <span class="summary-value" id="completed-pomodoros">0개</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">작성된 코드 라인:</span>
+                                    <span class="summary-value" id="code-lines">0줄</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div data-include-path="./components/footer.html"></div>
+</body>
+
+<script src="./js/includeHTML.js"></script>
+<script src="./js/main.js"></script>
+</html>

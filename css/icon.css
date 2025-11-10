@@ -1,0 +1,58 @@
+.icon {
+  background-image: url('../assets/iconspng.png'); /* 스프라이트 시트 경로 */
+  background-repeat: no-repeat;
+  background-size: 200px;
+  display: inline-block;
+  margin-right: 5px;
+  width: 42px;    /* 아이콘 개별 크기 */
+  height: 42px;
+}
+
+.icon-active{
+
+  filter: brightness(0) saturate(100%) /* 완전히 검은색으로 만들기 */
+  invert(11%) sepia(16%) saturate(7463%) hue-rotate(180deg) brightness(95%) contrast(95%); /* 색상 변경 */
+
+
+}
+
+/* 각각의 아이콘 위치 지정 */
+.icon-todo {
+  background-position: -15px -12px;
+}
+
+.icon-git {
+  background-position: -77px -12px;
+}
+
+.icon-notion {
+  background-position: -138px -12px;
+}
+
+.icon-diary {
+  background-position: -16px -73px;
+}
+
+.icon-calendar {
+  background-position: -78px -73px;
+}
+
+.icon-dev-log {
+  background-position: -139px -73px;
+}
+
+.icon-dash-board {
+  background-position: -17px -132px;
+}
+
+.icon-snippet {
+  background-position: -78px -132px;
+}
+
+.icon-time-trace {
+  background-position: -140px -132px;
+}
+
+.col {
+  display: flex;
+}
