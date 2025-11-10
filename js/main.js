@@ -419,9 +419,14 @@ function renderCalendar() {
 // 일정 패널 렌더링
 function showEventsForDate(dateString) {
   selectedDate = dateString;
+
+  document.querySelectorAll(".calendar-day").forEach(day => {
+    day.classList.toggle("selected", day.dataset.date === dateString);
+  });
+  
   const panel = document.querySelector(".event-panel");
   panel.innerHTML = `
-    <h3>${dateString} 일정</h3>
+    <h3><span class="highlight-date">${dateString}</span> 일정</h3>
     <div class="event-list"></div>
     <div class="event-form">
       <input type="text" id="event-title" placeholder="제목">

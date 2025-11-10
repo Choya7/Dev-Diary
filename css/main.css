@@ -1106,6 +1106,11 @@ select option:focus {
     backdrop-filter: blur(6px);
   }
   
+  .highlight-date {
+    color: #00bcd4;
+    font-weight: bold;
+  }
+
   .event-list {
     margin-top: 10px;
   }
@@ -1165,11 +1170,16 @@ select option:focus {
     border-radius: 12px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s 
-ease;
+    transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 255, 229, 0.3);
   }
 
+  .calendar-day.selected {
+    outline: 2px solid #00bcd4;
+    border-radius: 8px;
+    background-color: rgba(0, 188, 212, 0.2);
+  }
+  
 /* 반응형 디자인 */
 @media (max-width: 768px) {
     main {
