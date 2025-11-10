@@ -423,7 +423,7 @@ function showEventsForDate(dateString) {
   document.querySelectorAll(".calendar-day").forEach(day => {
     day.classList.toggle("selected", day.dataset.date === dateString);
   });
-  
+
   const panel = document.querySelector(".event-panel");
   panel.innerHTML = `
     <h3><span class="highlight-date">${dateString}</span> 일정</h3>
@@ -579,6 +579,34 @@ function saveDevLog() {
     }
 }
 
+function deleteDevLog(id) {
+    const target = devLogs.find(log => log.id === id);
+    if (!target) return;
+
+    Swal.fire({
+        title: `[ ${target.title} ] 로그를 삭제하시겠습니까?`,
+        text: "이 작업은 되돌릴 수 없습니다.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "삭제",
+        cancelButtonText: "취소"
+    }).then(result => {
+        if (result.isConfirmed) {
+            devLogs = devLogs.filter(log => log.id !== id);
+            localStorage.setItem('devLogs', JSON.stringify(devLogs));
+            renderDevLogs();
+
+            Toastify({
+                text: "로그가 삭제되었습니다.",
+                duration: 3000,
+                backgroundColor: "#00b09b"
+            }).showToast();
+        }
+    });
+}
+
 function renderDevLogs() {
     const logEntries = document.getElementById('log-entries');
     if (!logEntries) return;
@@ -595,7 +623,10 @@ function renderDevLogs() {
                 <span class="log-type ${log.type}">${getLogTypeText(log.type)}</span>
             </div>
             <div class="log-content">${log.content}</div>
-            <div class="log-date">${new Date(log.createdAt).toLocaleString()}</div>
+            <div class="log-footer">
+                <span class="log-date">${new Date(log.createdAt).toLocaleString()}</span>
+                <button class="delete-log-btn" onclick="deleteDevLog(${log.id})">🗑️ 삭제</button>
+            </div>
         </div>
     `).join('');
 }
