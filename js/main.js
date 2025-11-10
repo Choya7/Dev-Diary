@@ -779,6 +779,15 @@ function deleteSnippet(id) {
 // 시간 추적 기능
 function initTimerPage() {
     updateTimerDisplay();
+
+    // 버튼 이벤트 연결
+    document.getElementById('start-timer')?.addEventListener('click', startTimer);
+    document.getElementById('pause-timer')?.addEventListener('click', pauseTimer);
+    document.getElementById('reset-timer')?.addEventListener('click', resetTimer);
+
+    // 초기 시간 세팅
+    timerTime = parseInt(document.getElementById('work-duration').value) * 60;
+    isWorkTime = true;
 }
 
 function startTimer() {
@@ -786,6 +795,7 @@ function startTimer() {
         isTimerRunning = true;
         timerInterval = setInterval(() => {
             timerTime--;
+            console.log('timerTime:', timerTime);
             updateTimerDisplay();
             
             if (timerTime <= 0) {
@@ -834,7 +844,7 @@ function updateTimerDisplay() {
     const seconds = timerTime % 60;
     const display = document.getElementById('timer-display');
     if (display) {
-        display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        display.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
     }
 }
 
